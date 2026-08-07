@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss Pweedy | Ultimate Official Store and Booking Portal</title>
+    <title>Miss Pweedy | Ultimate Portal and Booking System</title>
     <style>
         :root {
             --lavender: #d8b4fe;
@@ -13,8 +13,6 @@
             --dark-bg: #0f0728;
             --glass-bg: rgba(147, 51, 234, 0.15);
             --glass-border: rgba(216, 180, 254, 0.3);
-            --card-hover: rgba(34, 211, 238, 0.25);
-            --neon-glow: 0 0 25px rgba(34, 211, 238, 0.4);
         }
 
         * {
@@ -45,18 +43,6 @@
             box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.5);
             position: relative;
             overflow: hidden;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.1), transparent);
-            animation: shimmer 6s infinite;
-        }
-
-        @keyframes shimmer {
-            100% { left: 100%; }
         }
 
         header h1 {
@@ -92,9 +78,6 @@
             font-size: 1.8rem;
             text-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
             letter-spacing: 0.8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
         .grid {
@@ -225,45 +208,79 @@
             background: rgba(30, 10, 60, 0.98);
             backdrop-filter: blur(24px);
             border: 2px solid var(--periwinkle);
-            padding: 40px;
+            padding: 30px;
             border-radius: 26px;
-            max-width: 480px;
+            max-width: 500px;
             width: 90%;
             box-shadow: 0 0 60px rgba(147, 51, 234, 0.6);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .slip-box {
             background: rgba(15, 7, 40, 0.95);
             border: 1px dashed var(--periwinkle);
-            padding: 20px;
+            padding: 15px;
             border-radius: 14px;
             font-family: monospace;
             color: var(--cyan);
-            font-size: 0.9rem;
-            margin: 20px 0;
+            font-size: 0.85rem;
+            margin: 15px 0;
             white-space: pre-line;
-            line-height: 1.6;
-            max-height: 250px;
+            line-height: 1.5;
+            max-height: 180px;
             overflow-y: auto;
+        }
+
+        .modal-content label {
+            font-size: 0.9rem;
+            color: var(--periwinkle);
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
         }
 
         .modal-content input {
             width: 100%;
-            padding: 16px;
-            margin: 15px 0;
-            border-radius: 14px;
+            padding: 12px;
+            margin: 8px 0 12px 0;
+            border-radius: 12px;
             border: 1px solid var(--periwinkle);
             background: rgba(15, 7, 40, 0.9);
             color: #fff;
             box-sizing: border-box;
             outline: none;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .modal-content input:focus {
             border-color: var(--cyan);
             box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0 15px 0;
+        }
+
+        .payment-option-card {
+            flex: 1;
+            background: rgba(15, 7, 40, 0.9);
+            border: 1px solid var(--periwinkle);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .payment-option-card input {
+            margin-right: 6px;
+            width: auto;
+            margin: 0 6px 0 0;
         }
 
         .cart-item-row {
@@ -495,20 +512,40 @@
             <p style="display:flex; justify-content:space-between; font-size:1.4rem; font-weight:bold; margin-bottom:0;">
                 <span>Total:</span> <span id="total" style="color: var(--cyan);">R0.00</span>
             </p>
-            <button class="liquid-btn checkout-btn" onclick="generateSlip()">Generate Client Slip and Booking Total</button>
+            <button class="liquid-btn checkout-btn" onclick="openBookingModal()">Proceed to Book Appointment / Order</button>
         </div>
 
     </div>
 
-    <!-- MODAL POPUP -->
+    <!-- BOOKING MODAL -->
     <div class="modal" id="modalSlip">
         <div class="modal-content">
-            <h3 style="color: var(--lavender); margin-top:0;">Official Client Slip & Booking Confirmation</h3>
+            <h3 style="color: var(--lavender); margin-top:0;">Complete Booking and Order Slip</h3>
             <div class="slip-box" id="slipText"></div>
-            <label style="font-size:0.95rem; color: var(--periwinkle); font-weight: 600;">Your Name or WhatsApp Number:</label>
+            
+            <label>Your Full Name / WhatsApp Number:</label>
             <input type="text" id="clientName" placeholder="e.g. Lerato">
+
+            <label>Appointment / Collection Date:</label>
+            <input type="date" id="appointmentDate">
+
+            <label>Time Slot:</label>
+            <input type="time" id="appointmentTime">
+
+            <label>Choose Payment Option:</label>
+            <div class="payment-options">
+                <div class="payment-option-card">
+                    <input type="radio" id="payStore" name="paymentChoice" value="Pay when at store" checked>
+                    <label for="payStore" style="display:inline; cursor:pointer;">Pay at Store</label>
+                </div>
+                <div class="payment-option-card">
+                    <input type="radio" id="payNow" name="paymentChoice" value="Pay now">
+                    <label for="payNow" style="display:inline; cursor:pointer;">Pay Now</label>
+                </div>
+            </div>
+
             <button class="liquid-btn" style="margin-top:15px; background: linear-gradient(135deg, rgba(34, 211, 238, 0.4), rgba(147, 51, 234, 0.4)); border-color: var(--cyan); color:#fff;" onclick="finishOrder()">Confirm and Send to Miss Pweedy</button>
-            <button class="liquid-btn" onclick="closeModal()" style="margin-top:12px; background: rgba(147, 51, 234, 0.2); border-color: var(--periwinkle); color:#cbd5e1;">Cancel</button>
+            <button class="liquid-btn" onclick="closeModal()" style="margin-top:10px; background: rgba(147, 51, 234, 0.2); border-color: var(--periwinkle); color:#cbd5e1;">Cancel</button>
         </div>
     </div>
 
@@ -549,9 +586,9 @@
             totalEl.innerText = `R${total}`;
         }
 
-        function generateSlip() {
+        function openBookingModal() {
             if (cart.length === 0) {
-                alert("Please select a service, wig, or kota first!");
+                alert("Please select at least one item, wig, or service first!");
                 return;
             }
 
@@ -562,13 +599,12 @@
             slip += `     MISS PWEEDY OFFICIAL SLIP\n`;
             slip += `     Bedworth Park, Student Lofts\n`;
             slip += `===============================\n`;
-            slip += `Time: ${timeStr}\n`;
+            slip += `Generated: ${timeStr}\n`;
             cart.forEach(item => {
                 slip += `> ${item.name} ... R${item.price}\n`;
             });
             slip += `-------------------------------\n`;
             slip += `TOTAL DUE: R${total}\n`;
-            slip += `[Status: Ready for Appointment Booking]\n`;
             slip += `===============================\n`;
 
             document.getElementById('slipText').innerText = slip;
@@ -581,15 +617,22 @@
 
         function finishOrder() {
             let name = document.getElementById('clientName').value;
-            if (!name) {
-                alert("Please enter your name or number!");
+            let date = document.getElementById('appointmentDate').value;
+            let time = document.getElementById('appointmentTime').value;
+            let paymentChoice = document.querySelector('input[name="paymentChoice"]:checked').value;
+
+            if (!name || !date || !time) {
+                alert("Please enter your name, appointment date, and time slot!");
                 return;
             }
-            alert(`Awesome ${name}! Your booking summary and total have been recorded. Send this confirmation slip to Miss Pweedy at 083 505 2798 to lock in your slot!`);
+
+            alert(`Booking Confirmed for ${name}!\nDate: ${date} at ${time}\nPayment Preference: ${paymentChoice}\n\nPlease send your confirmation slip to Miss Pweedy at 083 505 2798 to lock in your slot.`);
             closeModal();
             cart = [];
             updateCart();
             document.getElementById('clientName').value = '';
+            document.getElementById('appointmentDate').value = '';
+            document.getElementById('appointmentTime').value = '';
         }
     </script>
 </body>
@@ -599,7 +642,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss Pweedy | Ultimate Official Store and Booking Portal</title>
+    <title>Miss Pweedy | Ultimate Portal and Booking System</title>
     <style>
         :root {
             --lavender: #d8b4fe;
@@ -609,8 +652,6 @@
             --dark-bg: #0f0728;
             --glass-bg: rgba(147, 51, 234, 0.15);
             --glass-border: rgba(216, 180, 254, 0.3);
-            --card-hover: rgba(34, 211, 238, 0.25);
-            --neon-glow: 0 0 25px rgba(34, 211, 238, 0.4);
         }
 
         * {
@@ -641,18 +682,6 @@
             box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.5);
             position: relative;
             overflow: hidden;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.1), transparent);
-            animation: shimmer 6s infinite;
-        }
-
-        @keyframes shimmer {
-            100% { left: 100%; }
         }
 
         header h1 {
@@ -688,9 +717,6 @@
             font-size: 1.8rem;
             text-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
             letter-spacing: 0.8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
         .grid {
@@ -821,45 +847,79 @@
             background: rgba(30, 10, 60, 0.98);
             backdrop-filter: blur(24px);
             border: 2px solid var(--periwinkle);
-            padding: 40px;
+            padding: 30px;
             border-radius: 26px;
-            max-width: 480px;
+            max-width: 500px;
             width: 90%;
             box-shadow: 0 0 60px rgba(147, 51, 234, 0.6);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .slip-box {
             background: rgba(15, 7, 40, 0.95);
             border: 1px dashed var(--periwinkle);
-            padding: 20px;
+            padding: 15px;
             border-radius: 14px;
             font-family: monospace;
             color: var(--cyan);
-            font-size: 0.9rem;
-            margin: 20px 0;
+            font-size: 0.85rem;
+            margin: 15px 0;
             white-space: pre-line;
-            line-height: 1.6;
-            max-height: 250px;
+            line-height: 1.5;
+            max-height: 180px;
             overflow-y: auto;
+        }
+
+        .modal-content label {
+            font-size: 0.9rem;
+            color: var(--periwinkle);
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
         }
 
         .modal-content input {
             width: 100%;
-            padding: 16px;
-            margin: 15px 0;
-            border-radius: 14px;
+            padding: 12px;
+            margin: 8px 0 12px 0;
+            border-radius: 12px;
             border: 1px solid var(--periwinkle);
             background: rgba(15, 7, 40, 0.9);
             color: #fff;
             box-sizing: border-box;
             outline: none;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .modal-content input:focus {
             border-color: var(--cyan);
             box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0 15px 0;
+        }
+
+        .payment-option-card {
+            flex: 1;
+            background: rgba(15, 7, 40, 0.9);
+            border: 1px solid var(--periwinkle);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .payment-option-card input {
+            margin-right: 6px;
+            width: auto;
+            margin: 0 6px 0 0;
         }
 
         .cart-item-row {
@@ -1091,20 +1151,40 @@
             <p style="display:flex; justify-content:space-between; font-size:1.4rem; font-weight:bold; margin-bottom:0;">
                 <span>Total:</span> <span id="total" style="color: var(--cyan);">R0.00</span>
             </p>
-            <button class="liquid-btn checkout-btn" onclick="generateSlip()">Generate Client Slip and Booking Total</button>
+            <button class="liquid-btn checkout-btn" onclick="openBookingModal()">Proceed to Book Appointment / Order</button>
         </div>
 
     </div>
 
-    <!-- MODAL POPUP -->
+    <!-- BOOKING MODAL -->
     <div class="modal" id="modalSlip">
         <div class="modal-content">
-            <h3 style="color: var(--lavender); margin-top:0;">Official Client Slip & Booking Confirmation</h3>
+            <h3 style="color: var(--lavender); margin-top:0;">Complete Booking and Order Slip</h3>
             <div class="slip-box" id="slipText"></div>
-            <label style="font-size:0.95rem; color: var(--periwinkle); font-weight: 600;">Your Name or WhatsApp Number:</label>
+            
+            <label>Your Full Name / WhatsApp Number:</label>
             <input type="text" id="clientName" placeholder="e.g. Lerato">
+
+            <label>Appointment / Collection Date:</label>
+            <input type="date" id="appointmentDate">
+
+            <label>Time Slot:</label>
+            <input type="time" id="appointmentTime">
+
+            <label>Choose Payment Option:</label>
+            <div class="payment-options">
+                <div class="payment-option-card">
+                    <input type="radio" id="payStore" name="paymentChoice" value="Pay when at store" checked>
+                    <label for="payStore" style="display:inline; cursor:pointer;">Pay at Store</label>
+                </div>
+                <div class="payment-option-card">
+                    <input type="radio" id="payNow" name="paymentChoice" value="Pay now">
+                    <label for="payNow" style="display:inline; cursor:pointer;">Pay Now</label>
+                </div>
+            </div>
+
             <button class="liquid-btn" style="margin-top:15px; background: linear-gradient(135deg, rgba(34, 211, 238, 0.4), rgba(147, 51, 234, 0.4)); border-color: var(--cyan); color:#fff;" onclick="finishOrder()">Confirm and Send to Miss Pweedy</button>
-            <button class="liquid-btn" onclick="closeModal()" style="margin-top:12px; background: rgba(147, 51, 234, 0.2); border-color: var(--periwinkle); color:#cbd5e1;">Cancel</button>
+            <button class="liquid-btn" onclick="closeModal()" style="margin-top:10px; background: rgba(147, 51, 234, 0.2); border-color: var(--periwinkle); color:#cbd5e1;">Cancel</button>
         </div>
     </div>
 
@@ -1145,9 +1225,9 @@
             totalEl.innerText = `R${total}`;
         }
 
-        function generateSlip() {
+        function openBookingModal() {
             if (cart.length === 0) {
-                alert("Please select a service, wig, or kota first!");
+                alert("Please select at least one item, wig, or service first!");
                 return;
             }
 
@@ -1158,13 +1238,12 @@
             slip += `     MISS PWEEDY OFFICIAL SLIP\n`;
             slip += `     Bedworth Park, Student Lofts\n`;
             slip += `===============================\n`;
-            slip += `Time: ${timeStr}\n`;
+            slip += `Generated: ${timeStr}\n`;
             cart.forEach(item => {
                 slip += `> ${item.name} ... R${item.price}\n`;
             });
             slip += `-------------------------------\n`;
             slip += `TOTAL DUE: R${total}\n`;
-            slip += `[Status: Ready for Appointment Booking]\n`;
             slip += `===============================\n`;
 
             document.getElementById('slipText').innerText = slip;
@@ -1177,15 +1256,22 @@
 
         function finishOrder() {
             let name = document.getElementById('clientName').value;
-            if (!name) {
-                alert("Please enter your name or number!");
+            let date = document.getElementById('appointmentDate').value;
+            let time = document.getElementById('appointmentTime').value;
+            let paymentChoice = document.querySelector('input[name="paymentChoice"]:checked').value;
+
+            if (!name || !date || !time) {
+                alert("Please enter your name, appointment date, and time slot!");
                 return;
             }
-            alert(`Awesome ${name}! Your booking summary and total have been recorded. Send this confirmation slip to Miss Pweedy at 083 505 2798 to lock in your slot!`);
+
+            alert(`Booking Confirmed for ${name}!\nDate: ${date} at ${time}\nPayment Preference: ${paymentChoice}\n\nPlease send your confirmation slip to Miss Pweedy at 083 505 2798 to lock in your slot.`);
             closeModal();
             cart = [];
             updateCart();
             document.getElementById('clientName').value = '';
+            document.getElementById('appointmentDate').value = '';
+            document.getElementById('appointmentTime').value = '';
         }
     </script>
 </body>
