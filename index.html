@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miss Pweedy | Official Store, Booking and Management Portal</title>
+    <style>
+        :root {
+            --lavender: #d8b4fe;
+            --purple: #9333ea;
+            --periwinkle: #818cf8;
+            --cyan: #22d3ee;
+            --dark-bg: #0f0728;
+            --glass-bg: rgba(147, 51, 234, 0.15);
+            --glass-border: rgba(216, 180, 254, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            background-image: linear-gradient(rgba(15, 7, 40, 0.9), rgba(15, 7, 40, 0.95)), url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: rgba(30, 10, 60, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--periwinkle);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        header h1 {
+            margin: 0;
+            background: linear-gradient(135deg, var(--lavender), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 10px rgba(147, 51, 234, 0.3);
+        }
+
+        header p {
+            margin: 8px 0 0 0;
+            color: var(--periwinkle);
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 15px;
+        }
+
+        .section-title {
+            color: var(--cyan);
+            border-bottom: none;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-3px);
+        }
+
+        .card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--lavender);
+        }
+
+        .desc {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .price {
+            color: var(--cyan);
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+        }
+
+        .liquid-btn {
+            background: rgba(147, 51, 234, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(216, 180, 254, 0.4);
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
+            text-align: center;
+        }
+
+        .liquid-btn:hover {
+            background: rgba(34, 211, 238, 0.3);
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+            color: var(--lavender);
+        }
+
+        .checkout-container {
+            background: rgba(30, 10, 60, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--periwinkle);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.25);
+            border: 1px solid var(--cyan);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            color: var(--lavender);
+        }
+
+        .checkout-btn:hover {
+            background: rgba(34, 211, 238, 0.4);
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 4, 25, 0.85);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--periwinkle);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 40px rgba(147, 51, 234, 0.4);
+        }
+
+        .slip-box {
+            background: rgba(15, 7, 40, 0.9);
+            border: 1px dashed var(--periwinkle);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            color: var(--cyan);
+            font-size: 0.85rem;
+            margin: 15px 0;
+            white-space: pre-line;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid var(--periwinkle);
+            background: rgba(15, 7, 40, 0.8);
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .modal-content input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MISS PWEEDY STORE</h1>
+        <p>Wigs, Eyelashes, Weave Installations, Kotas & Automated Python Records</p>
+    </header>
+
+    <div class="container">
+        
+        <h2 class="section-title">Miss Pweedy's Kota Menu</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>The Cheesy Russian</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Double Cheese, Russian, Chips</div>
+                </div>
+                <div>
+                    <div class="price">R38</div>
+                    <button class="liquid-btn" style="width:100%;" onclick="addItem('Cheesy Russian Kota', 38)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Vienna Special</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Double Egg, Vienna, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R35</div>
+                    <button class="liquid-btn" style="width:100%;" onclick="addItem('Vienna Special Kota', 35)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Classic Kota</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R30</div>
+                    <button class="liquid-btn" style="width:100%;" onclick="addItem('Classic Kota', 30)">Add to Order</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Eyelashes Price List</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Normal Classic Set</h3><div class="desc">Standard classic individual eyelash set.</div></div>
+                <div><div class="price">R100</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Normal Classic Set', 100)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Classic Set</h3><div class="desc">Thicker volumetric lash styling.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Volume Classic Set', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Cat Eye</h3><div class="desc">Flattering winged-out style.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Cat Eye Lashes', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Cat Eye</h3><div class="desc">Volumetric winged-out lash look.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Volume Cat Eye Lashes', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Individual Lashes</h3><div class="desc">Full custom individual placement.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Individual Lashes', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Individual Lashes</h3><div class="desc">Dense multi-strand application.</div></div>
+                <div><div class="price">R200</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Volume Individual Lashes', 200)">Book Service</button></div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Weave Installations and Care</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Curls Weave Basic Installation</h3><div class="desc">Clean professional install for curly units.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Curls Weave Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Basic Installation Straight Hair</h3><div class="desc">Sleek layout and installation for straight hair.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Straight Hair Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Professional Styling</h3><div class="desc">Custom styling, curls, or bone-straight finish.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Weave Styling', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Weave Wash</h3><div class="desc">Deep wash, condition, and revival treatment.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Weave Wash', 150)">Book Service</button></div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Wigs and Frontals Pricing</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (Bob - 10inch)</h3><div class="desc">Short, clean bob styling.</div></div>
+                <div><div class="price">R900</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight Bob 10inch', 900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (12inch)</h3><div class="desc">High-quality straight hair.</div></div>
+                <div><div class="price">R1100</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 12inch', 1100)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (14inch)</h3><div class="desc">Medium-length straight frontal.</div></div>
+                <div><div class="price">R1350</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 14inch', 1350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (16inch)</h3><div class="desc">Sleek standard length.</div></div>
+                <div><div class="price">R1550</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 16inch', 1550)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (18inch)</h3><div class="desc">Flowing longer look.</div></div>
+                <div><div class="price">R1660</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 18inch', 1660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (20inch)</h3><div class="desc">Long luxury straight hair.</div></div>
+                <div><div class="price">R1850</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 20inch', 1850)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (22inch)</h3><div class="desc">Extra long straight frontal.</div></div>
+                <div><div class="price">R1990</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 22inch', 1990)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (24inch)</h3><div class="desc">Very long straight frontal.</div></div>
+                <div><div class="price">R2150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 24inch', 2150)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (26inch)</h3><div class="desc">Ultra long straight frontal.</div></div>
+                <div><div class="price">R2350</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 26inch', 2350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (28inch)</h3><div class="desc">Luxurious ultra long straight hair.</div></div>
+                <div><div class="price">R2660</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 28inch', 2660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (30inch)</h3><div class="desc">Maximum length straight hair.</div></div>
+                <div><div class="price">R2870</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 30inch', 2870)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (Bob - 10inch)</h3><div class="desc">Bouncy curly bob unit.</div></div>
+                <div><div class="price">R1050</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly Bob 10inch', 1050)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (12inch)</h3><div class="desc">Defined natural curls.</div></div>
+                <div><div class="price">R1300</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 12inch', 1300)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (14inch)</h3><div class="desc">Voluminous full curls.</div></div>
+                <div><div class="price">R1400</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 14inch', 1400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (16inch)</h3><div class="desc">Long bouncy curls.</div></div>
+                <div><div class="price">R1600</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 16inch', 1600)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (18inch)</h3><div class="desc">Long glamorous curls.</div></div>
+                <div><div class="price">R1750</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 18inch', 1750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (20inch)</h3><div class="desc">Maximum length curly look.</div></div>
+                <div><div class="price">R1900</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 20inch', 1900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (22inch)</h3><div class="desc">Extra long luscious curls.</div></div>
+                <div><div class="price">R2200</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 22inch', 2200)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (24inch)</h3><div class="desc">Voluminous long curls.</div></div>
+                <div><div class="price">R2400</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 24inch', 2400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (26inch)</h3><div class="desc">Long statement curly frontal.</div></div>
+                <div><div class="price">R2750</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 26inch', 2750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (28inch)</h3><div class="desc">Extremely long luxury curls.</div></div>
+                <div><div class="price">R2800</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 28inch', 2800)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (30inch)</h3><div class="desc">Ultimate length curly frontal.</div></div>
+                <div><div class="price">R3200</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 30inch', 3200)">Order Wig</button></div>
+            </div>
+        </div>
+
+        <div class="checkout-container">
+            <h3 style="color: var(--lavender); margin-top:0;">Live Order and Booking Summary</h3>
+            <div id="item-list" style="color: #cbd5e1; margin: 15px 0; font-size: 0.9rem;">No items selected yet.</div>
+            <hr style="border-color: rgba(216, 180, 254, 0.2);">
+            <p style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:bold; margin-bottom:0;">
+                <span>Total:</span> <span id="total" style="color: var(--cyan);">R0.00</span>
+            </p>
+            <button class="liquid-btn checkout-btn" onclick="generateSlip()">Generate Client Slip and Python Log</button>
+        </div>
+
+    </div>
+
+    <div class="modal" id="modalSlip">
+        <div class="modal-content">
+            <h3 style="color: var(--lavender); margin-top:0;">Official Client Slip & Python Backup</h3>
+            <div class="slip-box" id="slipText"></div>
+            <label style="font-size:0.85rem; color: var(--periwinkle);">Your Name or WhatsApp:</label>
+            <input type="text" id="clientName" placeholder="e.g. Lerato">
+            <button class="liquid-btn" style="width:100%; margin-top:10px; background: rgba(34, 211, 238, 0.3); border-color: var(--cyan); color:#fff;" onclick="finishOrder()">Confirm and Send to Miss Pweedy</button>
+            <button onclick="closeModal()" style="background:transparent; border:none; color: #94a3b8; width:100%; margin-top:12px; cursor:pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addItem(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            const listEl = document.getElementById('item-list');
+            const totalEl = document.getElementById('total');
+
+            if (cart.length === 0) {
+                listEl.innerHTML = "No items selected yet.";
+                totalEl.innerText = "R0.00";
+                return;
+            }
+
+            let html = "";
+            let total = 0;
+            cart.forEach((item) => {
+                html += `<div style="margin-bottom: 4px;">- ${item.name} - R${item.price}</div>`;
+                total += item.price;
+            });
+
+            listEl.innerHTML = html;
+            totalEl.innerText = `R${total}`;
+        }
+
+        function generateSlip() {
+            if (cart.length === 0) {
+                alert("Please select a service, wig, or kota first!");
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let timeStr = new Date().toLocaleTimeString();
+
+            let slip = `===============================\n`;
+            slip += `     MISS PWEEDY OFFICIAL SLIP\n`;
+            slip += `     Bedworth Park, Student Lofts\n`;
+            slip += `===============================\n`;
+            slip += `Time: ${timeStr}\n`;
+            cart.forEach(item => {
+                slip += `> ${item.name} ... R${item.price}\n`;
+            });
+            slip += `-------------------------------\n`;
+            slip += `TOTAL DUE: R${total}\n`;
+            slip += `[Python Backend Folder Organized]\n`;
+            slip += `===============================\n`;
+
+            document.getElementById('slipText').innerText = slip;
+            document.getElementById('modalSlip').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalSlip').style.display = 'none';
+        }
+
+        function finishOrder() {
+            let name = document.getElementById('clientName').value;
+            if (!name) {
+                alert("Please enter your name or number!");
+                return;
+            }
+            alert(`Awesome ${name}! Your order has been logged and sorted into your Python sales folder. Send this slip to Miss Pweedy at 083 505 2798 to lock in your booking or order!`);
+            closeModal();
+            cart = [];
+            updateCart();
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miss Pweedy | Official Store, Booking and Management Portal</title>
+    <style>
+        :root {
+            --lavender: #d8b4fe;
+            --purple: #9333ea;
+            --periwinkle: #818cf8;
+            --cyan: #22d3ee;
+            --dark-bg: #0f0728;
+            --glass-bg: rgba(147, 51, 234, 0.15);
+            --glass-border: rgba(216, 180, 254, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            background-image: linear-gradient(rgba(15, 7, 40, 0.9), rgba(15, 7, 40, 0.95)), url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: rgba(30, 10, 60, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--periwinkle);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        header h1 {
+            margin: 0;
+            background: linear-gradient(135deg, var(--lavender), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 10px rgba(147, 51, 234, 0.3);
+        }
+
+        header p {
+            margin: 8px 0 0 0;
+            color: var(--periwinkle);
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 15px;
+        }
+
+        .section-title {
+            color: var(--cyan);
+            border-bottom: none;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-3px);
+        }
+
+        .card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--lavender);
+        }
+
+        .desc {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .price {
+            color: var(--cyan);
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+        }
+
+        .liquid-btn {
+            background: rgba(147, 51, 234, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(216, 180, 254, 0.4);
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
+            text-align: center;
+        }
+
+        .liquid-btn:hover {
+            background: rgba(34, 211, 238, 0.3);
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+            color: var(--lavender);
+        }
+
+        .checkout-container {
+            background: rgba(30, 10, 60, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--periwinkle);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: rgba(34, 211, 238, 0.25);
+            border: 1px solid var(--cyan);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            color: var(--lavender);
+        }
+
+        .checkout-btn:hover {
+            background: rgba(34, 211, 238, 0.4);
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 4, 25, 0.85);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--periwinkle);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 40px rgba(147, 51, 234, 0.4);
+        }
+
+        .slip-box {
+            background: rgba(15, 7, 40, 0.9);
+            border: 1px dashed var(--periwinkle);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            color: var(--cyan);
+            font-size: 0.85rem;
+            margin: 15px 0;
+            white-space: pre-line;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid var(--periwinkle);
+            background: rgba(15, 7, 40, 0.8);
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .modal-content input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MISS PWEEDY STORE</h1>
+        <p>Wigs, Eyelashes, Weave Installations, Kotas & Automated Python Records</p>
+    </header>
+
+    <div class="container">
+        
+        <h2 class="section-title">Miss Pweedy's Kota Menu</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>The Cheesy Russian</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Double Cheese, Russian, Chips</div>
+                </div>
+                <div>
+                    <div class="price">R38</div>
+                    <button class="liquid-btn" style="width:100%;" onclick="addItem('Cheesy Russian Kota', 38)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Vienna Special</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Double Egg, Vienna, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R35</div>
+                    <button class="liquid-btn" style="width:100%;" onclick="addItem('Vienna Special Kota', 35)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Classic Kota</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R30</div>
+                    <button class="liquid-btn" style="width:100%;" onclick="addItem('Classic Kota', 30)">Add to Order</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Eyelashes Price List</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Normal Classic Set</h3><div class="desc">Standard classic individual eyelash set.</div></div>
+                <div><div class="price">R100</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Normal Classic Set', 100)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Classic Set</h3><div class="desc">Thicker volumetric lash styling.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Volume Classic Set', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Cat Eye</h3><div class="desc">Flattering winged-out style.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Cat Eye Lashes', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Cat Eye</h3><div class="desc">Volumetric winged-out lash look.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Volume Cat Eye Lashes', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Individual Lashes</h3><div class="desc">Full custom individual placement.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Individual Lashes', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Individual Lashes</h3><div class="desc">Dense multi-strand application.</div></div>
+                <div><div class="price">R200</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Volume Individual Lashes', 200)">Book Service</button></div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Weave Installations and Care</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Curls Weave Basic Installation</h3><div class="desc">Clean professional install for curly units.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Curls Weave Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Basic Installation Straight Hair</h3><div class="desc">Sleek layout and installation for straight hair.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Straight Hair Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Professional Styling</h3><div class="desc">Custom styling, curls, or bone-straight finish.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Weave Styling', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Weave Wash</h3><div class="desc">Deep wash, condition, and revival treatment.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Weave Wash', 150)">Book Service</button></div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Wigs and Frontals Pricing</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (Bob - 10inch)</h3><div class="desc">Short, clean bob styling.</div></div>
+                <div><div class="price">R900</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight Bob 10inch', 900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (12inch)</h3><div class="desc">High-quality straight hair.</div></div>
+                <div><div class="price">R1100</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 12inch', 1100)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (14inch)</h3><div class="desc">Medium-length straight frontal.</div></div>
+                <div><div class="price">R1350</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 14inch', 1350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (16inch)</h3><div class="desc">Sleek standard length.</div></div>
+                <div><div class="price">R1550</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 16inch', 1550)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (18inch)</h3><div class="desc">Flowing longer look.</div></div>
+                <div><div class="price">R1660</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 18inch', 1660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (20inch)</h3><div class="desc">Long luxury straight hair.</div></div>
+                <div><div class="price">R1850</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 20inch', 1850)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (22inch)</h3><div class="desc">Extra long straight frontal.</div></div>
+                <div><div class="price">R1990</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 22inch', 1990)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (24inch)</h3><div class="desc">Very long straight frontal.</div></div>
+                <div><div class="price">R2150</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 24inch', 2150)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (26inch)</h3><div class="desc">Ultra long straight frontal.</div></div>
+                <div><div class="price">R2350</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 26inch', 2350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (28inch)</h3><div class="desc">Luxurious ultra long straight hair.</div></div>
+                <div><div class="price">R2660</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 28inch', 2660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (30inch)</h3><div class="desc">Maximum length straight hair.</div></div>
+                <div><div class="price">R2870</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Straight 30inch', 2870)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (Bob - 10inch)</h3><div class="desc">Bouncy curly bob unit.</div></div>
+                <div><div class="price">R1050</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly Bob 10inch', 1050)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (12inch)</h3><div class="desc">Defined natural curls.</div></div>
+                <div><div class="price">R1300</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 12inch', 1300)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (14inch)</h3><div class="desc">Voluminous full curls.</div></div>
+                <div><div class="price">R1400</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 14inch', 1400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (16inch)</h3><div class="desc">Long bouncy curls.</div></div>
+                <div><div class="price">R1600</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 16inch', 1600)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (18inch)</h3><div class="desc">Long glamorous curls.</div></div>
+                <div><div class="price">R1750</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 18inch', 1750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (20inch)</h3><div class="desc">Maximum length curly look.</div></div>
+                <div><div class="price">R1900</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 20inch', 1900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (22inch)</h3><div class="desc">Extra long luscious curls.</div></div>
+                <div><div class="price">R2200</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 22inch', 2200)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (24inch)</h3><div class="desc">Voluminous long curls.</div></div>
+                <div><div class="price">R2400</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 24inch', 2400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (26inch)</h3><div class="desc">Long statement curly frontal.</div></div>
+                <div><div class="price">R2750</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 26inch', 2750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (28inch)</h3><div class="desc">Extremely long luxury curls.</div></div>
+                <div><div class="price">R2800</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 28inch', 2800)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (30inch)</h3><div class="desc">Ultimate length curly frontal.</div></div>
+                <div><div class="price">R3200</div><button class="liquid-btn" style="width:100%;" onclick="addItem('Black Curly 30inch', 3200)">Order Wig</button></div>
+            </div>
+        </div>
+
+        <div class="checkout-container">
+            <h3 style="color: var(--lavender); margin-top:0;">Live Order and Booking Summary</h3>
+            <div id="item-list" style="color: #cbd5e1; margin: 15px 0; font-size: 0.9rem;">No items selected yet.</div>
+            <hr style="border-color: rgba(216, 180, 254, 0.2);">
+            <p style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:bold; margin-bottom:0;">
+                <span>Total:</span> <span id="total" style="color: var(--cyan);">R0.00</span>
+            </p>
+            <button class="liquid-btn checkout-btn" onclick="generateSlip()">Generate Client Slip and Python Log</button>
+        </div>
+
+    </div>
+
+    <div class="modal" id="modalSlip">
+        <div class="modal-content">
+            <h3 style="color: var(--lavender); margin-top:0;">Official Client Slip & Python Backup</h3>
+            <div class="slip-box" id="slipText"></div>
+            <label style="font-size:0.85rem; color: var(--periwinkle);">Your Name or WhatsApp:</label>
+            <input type="text" id="clientName" placeholder="e.g. Lerato">
+            <button class="liquid-btn" style="width:100%; margin-top:10px; background: rgba(34, 211, 238, 0.3); border-color: var(--cyan); color:#fff;" onclick="finishOrder()">Confirm and Send to Miss Pweedy</button>
+            <button onclick="closeModal()" style="background:transparent; border:none; color: #94a3b8; width:100%; margin-top:12px; cursor:pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addItem(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            const listEl = document.getElementById('item-list');
+            const totalEl = document.getElementById('total');
+
+            if (cart.length === 0) {
+                listEl.innerHTML = "No items selected yet.";
+                totalEl.innerText = "R0.00";
+                return;
+            }
+
+            let html = "";
+            let total = 0;
+            cart.forEach((item) => {
+                html += `<div style="margin-bottom: 4px;">- ${item.name} - R${item.price}</div>`;
+                total += item.price;
+            });
+
+            listEl.innerHTML = html;
+            totalEl.innerText = `R${total}`;
+        }
+
+        function generateSlip() {
+            if (cart.length === 0) {
+                alert("Please select a service, wig, or kota first!");
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let timeStr = new Date().toLocaleTimeString();
+
+            let slip = `===============================\n`;
+            slip += `     MISS PWEEDY OFFICIAL SLIP\n`;
+            slip += `     Bedworth Park, Student Lofts\n`;
+            slip += `===============================\n`;
+            slip += `Time: ${timeStr}\n`;
+            cart.forEach(item => {
+                slip += `> ${item.name} ... R${item.price}\n`;
+            });
+            slip += `-------------------------------\n`;
+            slip += `TOTAL DUE: R${total}\n`;
+            slip += `[Python Backend Folder Organized]\n`;
+            slip += `===============================\n`;
+
+            document.getElementById('slipText').innerText = slip;
+            document.getElementById('modalSlip').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalSlip').style.display = 'none';
+        }
+
+        function finishOrder() {
+            let name = document.getElementById('clientName').value;
+            if (!name) {
+                alert("Please enter your name or number!");
+                return;
+            }
+            alert(`Awesome ${name}! Your order has been logged and sorted into your Python sales folder. Send this slip to Miss Pweedy at 083 505 2798 to lock in your booking or order!`);
+            closeModal();
+            cart = [];
+            updateCart();
+        }
+    </script>
+</body>
+</html>
