@@ -3,115 +3,628 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss Pweedy | Official Hub</title>
+    <title>Miss Pweedy | Ultimate Official Store and Booking Portal</title>
     <style>
         :root {
-            --primary: #00d2ff;
-            --secondary: #9b51e0;
-            --bg: #0a0f1d;
-            --card-bg: #131b2e;
-            --text: #ffffff;
-            --text-muted: #a0aec0;
+            --lavender: #d8b4fe;
+            --purple: #9333ea;
+            --periwinkle: #818cf8;
+            --cyan: #22d3ee;
+            --dark-bg: #0f0728;
+            --glass-bg: rgba(147, 51, 234, 0.15);
+            --glass-border: rgba(216, 180, 254, 0.3);
+            --card-hover: rgba(34, 211, 238, 0.25);
+            --neon-glow: 0 0 25px rgba(34, 211, 238, 0.4);
         }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--cyan) var(--dark-bg);
         }
+
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            background-image: linear-gradient(rgba(15, 7, 40, 0.94), rgba(15, 7, 40, 0.98)), url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #f8fafc;
+            padding-bottom: 80px;
         }
-        .container {
-            width: 100%;
-            max-width: 440px;
-            background: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0, 210, 255, 0.15);
+
+        header {
+            background: rgba(30, 10, 60, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 20px;
             text-align: center;
-            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-bottom: 3px solid var(--periwinkle);
+            box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.5);
+            position: relative;
+            overflow: hidden;
         }
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.1), transparent);
+            animation: shimmer 6s infinite;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-            color: var(--text);
+
+        @keyframes shimmer {
+            100% { left: 100%; }
         }
-        .badge {
-            display: inline-block;
-            background: rgba(155, 81, 224, 0.2);
-            color: #d6bcfa;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 12px;
+
+        header h1 {
+            margin: 0;
+            background: linear-gradient(135deg, var(--lavender), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3rem;
+            text-shadow: 0 2px 15px rgba(147, 51, 234, 0.5);
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        header p {
+            margin: 12px 0 0 0;
+            color: var(--periwinkle);
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
+
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            color: var(--cyan);
+            border-bottom: 2px solid rgba(34, 211, 238, 0.35);
+            padding-bottom: 12px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
             border-radius: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(155, 81, 224, 0.3);
-        }
-        .menu {
+            box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 45px 0 rgba(34, 211, 238, 0.25);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            color: var(--lavender);
+            font-weight: 700;
+        }
+
+        .desc {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .price {
+            color: var(--cyan);
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+        }
+
+        .liquid-btn {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(34, 211, 238, 0.2));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(216, 180, 254, 0.4);
+            color: #fff;
             padding: 14px;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(155, 81, 224, 0.1));
-            color: var(--text);
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.3);
+            text-align: center;
+            width: 100%;
+            letter-spacing: 0.5px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 210, 255, 0.3);
+            display: block;
+        }
+
+        .liquid-btn:hover {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.5), rgba(34, 211, 238, 0.4));
+            border-color: var(--cyan);
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
+            color: var(--lavender);
+            transform: scale(1.02);
+        }
+
+        .checkout-container {
+            background: rgba(30, 10, 60, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            margin-top: 60px;
+            padding: 35px;
+            border-radius: 24px;
+            border: 2px solid var(--periwinkle);
+            box-shadow: 0 15px 50px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.4), rgba(147, 51, 234, 0.4));
+            border: 1px solid var(--cyan);
+            font-size: 1.2rem;
+            margin-top: 25px;
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 4, 25, 0.9);
+            backdrop-filter: blur(16px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(30, 10, 60, 0.98);
+            backdrop-filter: blur(24px);
+            border: 2px solid var(--periwinkle);
+            padding: 40px;
+            border-radius: 26px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 0 60px rgba(147, 51, 234, 0.6);
+        }
+
+        .slip-box {
+            background: rgba(15, 7, 40, 0.95);
+            border: 1px dashed var(--periwinkle);
+            padding: 20px;
+            border-radius: 14px;
+            font-family: monospace;
+            color: var(--cyan);
+            font-size: 0.9rem;
+            margin: 20px 0;
+            white-space: pre-line;
+            line-height: 1.6;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 16px;
+            margin: 15px 0;
+            border-radius: 14px;
+            border: 1px solid var(--periwinkle);
+            background: rgba(15, 7, 40, 0.9);
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 1.05rem;
             transition: all 0.3s ease;
         }
-        .menu-item:hover {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
-            border-color: transparent;
+
+        .modal-content input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
         }
-        .footer {
-            margin-top: 25px;
-            font-size: 11px;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 15px;
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .remove-btn {
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.6);
+            color: #fca5a5;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            background: rgba(239, 68, 68, 0.6);
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" alt="Miss Pweedy" class="profile-img">
-        <h1>Miss Pweedy</h1>
-        <div class="badge">Official Content Menu</div>
-        <div class="menu">
-            <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20I%20want%20to%20chat!" class="menu-item" target="_blank">Direct WhatsApp Chat</a>
-            <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20here%20is%20my%20payment%20slip." class="menu-item" target="_blank">Send Payment Slip / Document</a>
-            <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20I%20want%20to%20book%20a%20promo." class="menu-item" target="_blank">Book Content Promotion</a>
+
+    <header>
+        <h1>MISS PWEEDY PORTAL</h1>
+        <p>Official Store, Eyelash Bookings, Weave Services, and Kotas</p>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <!-- DIRECT QUICK ACTIONS (WHATSAPP & SLIPS) -->
+        <h2 class="section-title">Direct Communication & Slips</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>Direct WhatsApp Chat</h3>
+                    <div class="desc">Open a direct chat with Miss Pweedy instantly on WhatsApp.</div>
+                </div>
+                <div>
+                    <div class="price">Open</div>
+                    <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20I%20want%20to%20chat!" class="liquid-btn" target="_blank">Chat on WhatsApp</a>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>Send Payment Slip</h3>
+                    <div class="desc">Upload and forward your payment slip or document proof straight to her.</div>
+                </div>
+                <div>
+                    <div class="price">Upload</div>
+                    <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20here%20is%20my%20payment%20slip." class="liquid-btn" target="_blank">Send Slip to WhatsApp</a>
+                </div>
+            </div>
         </div>
-        <div class="footer">Powered by Your Web Agency</div>
+
+        <!-- KOTA MENU -->
+        <h2 class="section-title">Miss Pweedy's Kota Menu</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>The Cheesy Russian</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Double Cheese, Russian, Chips</div>
+                </div>
+                <div>
+                    <div class="price">R38</div>
+                    <button class="liquid-btn" onclick="addItem('Cheesy Russian Kota', 38)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Vienna Special</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Double Egg, Vienna, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R35</div>
+                    <button class="liquid-btn" onclick="addItem('Vienna Special Kota', 35)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Classic Kota</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R30</div>
+                    <button class="liquid-btn" onclick="addItem('Classic Kota', 30)">Add to Order</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- EYELASHES PRICE LIST -->
+        <h2 class="section-title">Eyelashes Price List & Bookings</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Normal Classic Set</h3><div class="desc">Standard classic individual eyelash application.</div></div>
+                <div><div class="price">R100</div><button class="liquid-btn" onclick="addItem('Normal Classic Set', 100)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Classic Set</h3><div class="desc">Thicker volumetric lash styling.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" onclick="addItem('Volume Classic Set', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Cat Eye</h3><div class="desc">Flattering winged-out style.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" onclick="addItem('Cat Eye Lashes', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Cat Eye</h3><div class="desc">Volumetric winged-out lash look.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Volume Cat Eye Lashes', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Individual Lashes</h3><div class="desc">Full custom individual placement.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" onclick="addItem('Individual Lashes', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Individual Lashes</h3><div class="desc">Dense multi-strand application.</div></div>
+                <div><div class="price">R200</div><button class="liquid-btn" onclick="addItem('Volume Individual Lashes', 200)">Book Service</button></div>
+            </div>
+        </div>
+
+        <!-- WEAVE INSTALLATIONS AND CARE -->
+        <h2 class="section-title">Weave Installations and Care Services</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Curls Weave Basic Installation</h3><div class="desc">Clean professional install for curly units.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Curls Weave Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Basic Installation Straight Hair</h3><div class="desc">Sleek layout and installation for straight hair.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Straight Hair Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Professional Styling</h3><div class="desc">Custom styling, curls, or bone-straight finish.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" onclick="addItem('Weave Styling', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Weave Wash</h3><div class="desc">Deep wash, condition, and revival treatment.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Weave Wash', 150)">Book Service</button></div>
+            </div>
+        </div>
+
+        <!-- BLACK STRAIGHT WIGS -->
+        <h2 class="section-title">Black Straight Full Frontal Wigs</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (Bob - 10inch)</h3><div class="desc">Short, clean bob styling.</div></div>
+                <div><div class="price">R900</div><button class="liquid-btn" onclick="addItem('Black Straight Bob 10inch', 900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (12inch)</h3><div class="desc">High-quality straight hair.</div></div>
+                <div><div class="price">R1100</div><button class="liquid-btn" onclick="addItem('Black Straight 12inch', 1100)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (14inch)</h3><div class="desc">Medium-length straight frontal.</div></div>
+                <div><div class="price">R1350</div><button class="liquid-btn" onclick="addItem('Black Straight 14inch', 1350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (16inch)</h3><div class="desc">Sleek standard length.</div></div>
+                <div><div class="price">R1550</div><button class="liquid-btn" onclick="addItem('Black Straight 16inch', 1550)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (18inch)</h3><div class="desc">Flowing longer look.</div></div>
+                <div><div class="price">R1660</div><button class="liquid-btn" onclick="addItem('Black Straight 18inch', 1660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (20inch)</h3><div class="desc">Long luxury straight hair.</div></div>
+                <div><div class="price">R1850</div><button class="liquid-btn" onclick="addItem('Black Straight 20inch', 1850)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (22inch)</h3><div class="desc">Extra long straight frontal.</div></div>
+                <div><div class="price">R1990</div><button class="liquid-btn" onclick="addItem('Black Straight 22inch', 1990)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (24inch)</h3><div class="desc">Very long straight frontal.</div></div>
+                <div><div class="price">R2150</div><button class="liquid-btn" onclick="addItem('Black Straight 24inch', 2150)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (26inch)</h3><div class="desc">Ultra long straight frontal.</div></div>
+                <div><div class="price">R2350</div><button class="liquid-btn" onclick="addItem('Black Straight 26inch', 2350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (28inch)</h3><div class="desc">Luxurious ultra long straight hair.</div></div>
+                <div><div class="price">R2660</div><button class="liquid-btn" onclick="addItem('Black Straight 28inch', 2660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (30inch)</h3><div class="desc">Maximum length straight hair.</div></div>
+                <div><div class="price">R2870</div><button class="liquid-btn" onclick="addItem('Black Straight 30inch', 2870)">Order Wig</button></div>
+            </div>
+        </div>
+
+        <!-- BLACK CURLY WIGS -->
+        <h2 class="section-title">Black Curly Full Frontal Wigs</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (Bob - 10inch)</h3><div class="desc">Bouncy curly bob unit.</div></div>
+                <div><div class="price">R1050</div><button class="liquid-btn" onclick="addItem('Black Curly Bob 10inch', 1050)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (12inch)</h3><div class="desc">Defined natural curls.</div></div>
+                <div><div class="price">R1300</div><button class="liquid-btn" onclick="addItem('Black Curly 12inch', 1300)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (14inch)</h3><div class="desc">Voluminous full curls.</div></div>
+                <div><div class="price">R1400</div><button class="liquid-btn" onclick="addItem('Black Curly 14inch', 1400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (16inch)</h3><div class="desc">Long bouncy curls.</div></div>
+                <div><div class="price">R1600</div><button class="liquid-btn" onclick="addItem('Black Curly 16inch', 1600)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (18inch)</h3><div class="desc">Long glamorous curls.</div></div>
+                <div><div class="price">R1750</div><button class="liquid-btn" onclick="addItem('Black Curly 18inch', 1750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (20inch)</h3><div class="desc">Maximum length curly look.</div></div>
+                <div><div class="price">R1900</div><button class="liquid-btn" onclick="addItem('Black Curly 20inch', 1900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (22inch)</h3><div class="desc">Extra long luscious curls.</div></div>
+                <div><div class="price">R2200</div><button class="liquid-btn" onclick="addItem('Black Curly 22inch', 2200)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (24inch)</h3><div class="desc">Voluminous long curls.</div></div>
+                <div><div class="price">R2400</div><button class="liquid-btn" onclick="addItem('Black Curly 24inch', 2400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (26inch)</h3><div class="desc">Long statement curly frontal.</div></div>
+                <div><div class="price">R2750</div><button class="liquid-btn" onclick="addItem('Black Curly 26inch', 2750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (28inch)</h3><div class="desc">Extremely long luxury curls.</div></div>
+                <div><div class="price">R2800</div><button class="liquid-btn" onclick="addItem('Black Curly 28inch', 2800)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (30inch)</h3><div class="desc">Ultimate length curly frontal.</div></div>
+                <div><div class="price">R3200</div><button class="liquid-btn" onclick="addItem('Black Curly 30inch', 3200)">Order Wig</button></div>
+            </div>
+        </div>
+
+        <!-- LIVE CART AND SUMMARY -->
+        <div class="checkout-container">
+            <h3 style="color: var(--lavender); margin-top:0; font-size: 1.4rem;">Live Order and Booking Summary</h3>
+            <div id="item-list" style="color: #cbd5e1; margin: 20px 0; font-size: 1rem;">No items selected yet.</div>
+            <hr style="border-color: rgba(216, 180, 254, 0.25); margin: 20px 0;">
+            <p style="display:flex; justify-content:space-between; font-size:1.4rem; font-weight:bold; margin-bottom:0;">
+                <span>Total:</span> <span id="total" style="color: var(--cyan);">R0.00</span>
+            </p>
+            <button class="liquid-btn checkout-btn" onclick="generateSlip()">Generate Client Slip and Booking Total</button>
+        </div>
+
     </div>
+
+    <!-- MODAL POPUP -->
+    <div class="modal" id="modalSlip">
+        <div class="modal-content">
+            <h3 style="color: var(--lavender); margin-top:0;">Official Client Slip & Booking Confirmation</h3>
+            <div class="slip-box" id="slipText"></div>
+            <label style="font-size:0.95rem; color: var(--periwinkle); font-weight: 600;">Your Name or WhatsApp Number:</label>
+            <input type="text" id="clientName" placeholder="e.g. Lerato">
+            <button class="liquid-btn" style="margin-top:15px; background: linear-gradient(135deg, rgba(34, 211, 238, 0.4), rgba(147, 51, 234, 0.4)); border-color: var(--cyan); color:#fff;" onclick="finishOrder()">Confirm and Send to Miss Pweedy</button>
+            <button class="liquid-btn" onclick="closeModal()" style="margin-top:12px; background: rgba(147, 51, 234, 0.2); border-color: var(--periwinkle); color:#cbd5e1;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addItem(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            const listEl = document.getElementById('item-list');
+            const totalEl = document.getElementById('total');
+
+            if (cart.length === 0) {
+                listEl.innerHTML = "No items selected yet.";
+                totalEl.innerText = "R0.00";
+                return;
+            }
+
+            let html = "";
+            let total = 0;
+            cart.forEach((item, index) => {
+                html += `<div class="cart-item-row">
+                    <span>${item.name} - R${item.price}</span>
+                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                </div>`;
+                total += item.price;
+            });
+
+            listEl.innerHTML = html;
+            totalEl.innerText = `R${total}`;
+        }
+
+        function generateSlip() {
+            if (cart.length === 0) {
+                alert("Please select a service, wig, or kota first!");
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let timeStr = new Date().toLocaleTimeString();
+
+            let slip = `===============================\n`;
+            slip += `     MISS PWEEDY OFFICIAL SLIP\n`;
+            slip += `     Bedworth Park, Student Lofts\n`;
+            slip += `===============================\n`;
+            slip += `Time: ${timeStr}\n`;
+            cart.forEach(item => {
+                slip += `> ${item.name} ... R${item.price}\n`;
+            });
+            slip += `-------------------------------\n`;
+            slip += `TOTAL DUE: R${total}\n`;
+            slip += `[Status: Ready for Appointment Booking]\n`;
+            slip += `===============================\n`;
+
+            document.getElementById('slipText').innerText = slip;
+            document.getElementById('modalSlip').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalSlip').style.display = 'none';
+        }
+
+        function finishOrder() {
+            let name = document.getElementById('clientName').value;
+            if (!name) {
+                alert("Please enter your name or number!");
+                return;
+            }
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let itemsSummary = cart.map(i => i.name).join(", ");
+            
+            // Automatically open WhatsApp with prefilled order text ready for Miss Pweedy (0835052798)
+            let whatsappUrl = `https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20my%20name%20is%20${encodeURIComponent(name)}.%20I%20want%20to%20order:%20${encodeURIComponent(itemsSummary)}.%20Total:%20R${total}.%20Here%20is%20my%20booking%20slip!`;
+            
+            window.open(whatsappUrl, '_blank');
+            closeModal();
+            cart = [];
+            updateCart();
+            document.getElementById('clientName').value = '';
+        }
+    </script>
 </body>
 </html>
 <!DOCTYPE html>
@@ -119,114 +632,627 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss Pweedy | Official Hub</title>
+    <title>Miss Pweedy | Ultimate Official Store and Booking Portal</title>
     <style>
         :root {
-            --primary: #00d2ff;
-            --secondary: #9b51e0;
-            --bg: #0a0f1d;
-            --card-bg: #131b2e;
-            --text: #ffffff;
-            --text-muted: #a0aec0;
+            --lavender: #d8b4fe;
+            --purple: #9333ea;
+            --periwinkle: #818cf8;
+            --cyan: #22d3ee;
+            --dark-bg: #0f0728;
+            --glass-bg: rgba(147, 51, 234, 0.15);
+            --glass-border: rgba(216, 180, 254, 0.3);
+            --card-hover: rgba(34, 211, 238, 0.25);
+            --neon-glow: 0 0 25px rgba(34, 211, 238, 0.4);
         }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--cyan) var(--dark-bg);
         }
+
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            background-image: linear-gradient(rgba(15, 7, 40, 0.94), rgba(15, 7, 40, 0.98)), url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #f8fafc;
+            padding-bottom: 80px;
         }
-        .container {
-            width: 100%;
-            max-width: 440px;
-            background: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0, 210, 255, 0.15);
+
+        header {
+            background: rgba(30, 10, 60, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 20px;
             text-align: center;
-            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-bottom: 3px solid var(--periwinkle);
+            box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.5);
+            position: relative;
+            overflow: hidden;
         }
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.1), transparent);
+            animation: shimmer 6s infinite;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-            color: var(--text);
+
+        @keyframes shimmer {
+            100% { left: 100%; }
         }
-        .badge {
-            display: inline-block;
-            background: rgba(155, 81, 224, 0.2);
-            color: #d6bcfa;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 12px;
+
+        header h1 {
+            margin: 0;
+            background: linear-gradient(135deg, var(--lavender), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3rem;
+            text-shadow: 0 2px 15px rgba(147, 51, 234, 0.5);
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        header p {
+            margin: 12px 0 0 0;
+            color: var(--periwinkle);
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
+
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            color: var(--cyan);
+            border-bottom: 2px solid rgba(34, 211, 238, 0.35);
+            padding-bottom: 12px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
             border-radius: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(155, 81, 224, 0.3);
-        }
-        .menu {
+            box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 45px 0 rgba(34, 211, 238, 0.25);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            color: var(--lavender);
+            font-weight: 700;
+        }
+
+        .desc {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .price {
+            color: var(--cyan);
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+        }
+
+        .liquid-btn {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(34, 211, 238, 0.2));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(216, 180, 254, 0.4);
+            color: #fff;
             padding: 14px;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(155, 81, 224, 0.1));
-            color: var(--text);
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.3);
+            text-align: center;
+            width: 100%;
+            letter-spacing: 0.5px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 210, 255, 0.3);
+            display: block;
+        }
+
+        .liquid-btn:hover {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.5), rgba(34, 211, 238, 0.4));
+            border-color: var(--cyan);
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
+            color: var(--lavender);
+            transform: scale(1.02);
+        }
+
+        .checkout-container {
+            background: rgba(30, 10, 60, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            margin-top: 60px;
+            padding: 35px;
+            border-radius: 24px;
+            border: 2px solid var(--periwinkle);
+            box-shadow: 0 15px 50px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.4), rgba(147, 51, 234, 0.4));
+            border: 1px solid var(--cyan);
+            font-size: 1.2rem;
+            margin-top: 25px;
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 4, 25, 0.9);
+            backdrop-filter: blur(16px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(30, 10, 60, 0.98);
+            backdrop-filter: blur(24px);
+            border: 2px solid var(--periwinkle);
+            padding: 40px;
+            border-radius: 26px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 0 60px rgba(147, 51, 234, 0.6);
+        }
+
+        .slip-box {
+            background: rgba(15, 7, 40, 0.95);
+            border: 1px dashed var(--periwinkle);
+            padding: 20px;
+            border-radius: 14px;
+            font-family: monospace;
+            color: var(--cyan);
+            font-size: 0.9rem;
+            margin: 20px 0;
+            white-space: pre-line;
+            line-height: 1.6;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 16px;
+            margin: 15px 0;
+            border-radius: 14px;
+            border: 1px solid var(--periwinkle);
+            background: rgba(15, 7, 40, 0.9);
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 1.05rem;
             transition: all 0.3s ease;
         }
-        .menu-item:hover {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
-            border-color: transparent;
+
+        .modal-content input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
         }
-        .footer {
-            margin-top: 25px;
-            font-size: 11px;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 15px;
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .remove-btn {
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.6);
+            color: #fca5a5;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            background: rgba(239, 68, 68, 0.6);
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" alt="Miss Pweedy" class="profile-img">
-        <h1>Miss Pweedy</h1>
-        <div class="badge">Official Content Menu</div>
-        <div class="menu">
-            <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20I%20want%20to%20chat!" class="menu-item" target="_blank">Direct WhatsApp Chat</a>
-            <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20here%20is%20my%20payment%20slip." class="menu-item" target="_blank">Send Payment Slip / Document</a>
-            <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20I%20want%20to%20book%20a%20promo." class="menu-item" target="_blank">Book Content Promotion</a>
+
+    <header>
+        <h1>MISS PWEEDY PORTAL</h1>
+        <p>Official Store, Eyelash Bookings, Weave Services, and Kotas</p>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <!-- DIRECT QUICK ACTIONS (WHATSAPP & SLIPS) -->
+        <h2 class="section-title">Direct Communication & Slips</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>Direct WhatsApp Chat</h3>
+                    <div class="desc">Open a direct chat with Miss Pweedy instantly on WhatsApp.</div>
+                </div>
+                <div>
+                    <div class="price">Open</div>
+                    <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20I%20want%20to%20chat!" class="liquid-btn" target="_blank">Chat on WhatsApp</a>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>Send Payment Slip</h3>
+                    <div class="desc">Upload and forward your payment slip or document proof straight to her.</div>
+                </div>
+                <div>
+                    <div class="price">Upload</div>
+                    <a href="https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20here%20is%20my%20payment%20slip." class="liquid-btn" target="_blank">Send Slip to WhatsApp</a>
+                </div>
+            </div>
         </div>
-        <div class="footer">Powered by Your Web Agency</div>
+
+        <!-- KOTA MENU -->
+        <h2 class="section-title">Miss Pweedy's Kota Menu</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>The Cheesy Russian</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Double Cheese, Russian, Chips</div>
+                </div>
+                <div>
+                    <div class="price">R38</div>
+                    <button class="liquid-btn" onclick="addItem('Cheesy Russian Kota', 38)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Vienna Special</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Double Egg, Vienna, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R35</div>
+                    <button class="liquid-btn" onclick="addItem('Vienna Special Kota', 35)">Add to Order</button>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>The Classic Kota</h3>
+                    <div class="desc">Bread, Atchaar, Polony, Egg, Lettuce</div>
+                </div>
+                <div>
+                    <div class="price">R30</div>
+                    <button class="liquid-btn" onclick="addItem('Classic Kota', 30)">Add to Order</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- EYELASHES PRICE LIST -->
+        <h2 class="section-title">Eyelashes Price List & Bookings</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Normal Classic Set</h3><div class="desc">Standard classic individual eyelash application.</div></div>
+                <div><div class="price">R100</div><button class="liquid-btn" onclick="addItem('Normal Classic Set', 100)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Classic Set</h3><div class="desc">Thicker volumetric lash styling.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" onclick="addItem('Volume Classic Set', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Cat Eye</h3><div class="desc">Flattering winged-out style.</div></div>
+                <div><div class="price">R120</div><button class="liquid-btn" onclick="addItem('Cat Eye Lashes', 120)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Cat Eye</h3><div class="desc">Volumetric winged-out lash look.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Volume Cat Eye Lashes', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Individual Lashes</h3><div class="desc">Full custom individual placement.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" onclick="addItem('Individual Lashes', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Volume Individual Lashes</h3><div class="desc">Dense multi-strand application.</div></div>
+                <div><div class="price">R200</div><button class="liquid-btn" onclick="addItem('Volume Individual Lashes', 200)">Book Service</button></div>
+            </div>
+        </div>
+
+        <!-- WEAVE INSTALLATIONS AND CARE -->
+        <h2 class="section-title">Weave Installations and Care Services</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Curls Weave Basic Installation</h3><div class="desc">Clean professional install for curly units.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Curls Weave Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Basic Installation Straight Hair</h3><div class="desc">Sleek layout and installation for straight hair.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Straight Hair Installation', 150)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Professional Styling</h3><div class="desc">Custom styling, curls, or bone-straight finish.</div></div>
+                <div><div class="price">R180</div><button class="liquid-btn" onclick="addItem('Weave Styling', 180)">Book Service</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Weave Wash</h3><div class="desc">Deep wash, condition, and revival treatment.</div></div>
+                <div><div class="price">R150</div><button class="liquid-btn" onclick="addItem('Weave Wash', 150)">Book Service</button></div>
+            </div>
+        </div>
+
+        <!-- BLACK STRAIGHT WIGS -->
+        <h2 class="section-title">Black Straight Full Frontal Wigs</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (Bob - 10inch)</h3><div class="desc">Short, clean bob styling.</div></div>
+                <div><div class="price">R900</div><button class="liquid-btn" onclick="addItem('Black Straight Bob 10inch', 900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (12inch)</h3><div class="desc">High-quality straight hair.</div></div>
+                <div><div class="price">R1100</div><button class="liquid-btn" onclick="addItem('Black Straight 12inch', 1100)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (14inch)</h3><div class="desc">Medium-length straight frontal.</div></div>
+                <div><div class="price">R1350</div><button class="liquid-btn" onclick="addItem('Black Straight 14inch', 1350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (16inch)</h3><div class="desc">Sleek standard length.</div></div>
+                <div><div class="price">R1550</div><button class="liquid-btn" onclick="addItem('Black Straight 16inch', 1550)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (18inch)</h3><div class="desc">Flowing longer look.</div></div>
+                <div><div class="price">R1660</div><button class="liquid-btn" onclick="addItem('Black Straight 18inch', 1660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (20inch)</h3><div class="desc">Long luxury straight hair.</div></div>
+                <div><div class="price">R1850</div><button class="liquid-btn" onclick="addItem('Black Straight 20inch', 1850)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (22inch)</h3><div class="desc">Extra long straight frontal.</div></div>
+                <div><div class="price">R1990</div><button class="liquid-btn" onclick="addItem('Black Straight 22inch', 1990)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (24inch)</h3><div class="desc">Very long straight frontal.</div></div>
+                <div><div class="price">R2150</div><button class="liquid-btn" onclick="addItem('Black Straight 24inch', 2150)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (26inch)</h3><div class="desc">Ultra long straight frontal.</div></div>
+                <div><div class="price">R2350</div><button class="liquid-btn" onclick="addItem('Black Straight 26inch', 2350)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (28inch)</h3><div class="desc">Luxurious ultra long straight hair.</div></div>
+                <div><div class="price">R2660</div><button class="liquid-btn" onclick="addItem('Black Straight 28inch', 2660)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Straight Full Frontal (30inch)</h3><div class="desc">Maximum length straight hair.</div></div>
+                <div><div class="price">R2870</div><button class="liquid-btn" onclick="addItem('Black Straight 30inch', 2870)">Order Wig</button></div>
+            </div>
+        </div>
+
+        <!-- BLACK CURLY WIGS -->
+        <h2 class="section-title">Black Curly Full Frontal Wigs</h2>
+        <div class="grid">
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (Bob - 10inch)</h3><div class="desc">Bouncy curly bob unit.</div></div>
+                <div><div class="price">R1050</div><button class="liquid-btn" onclick="addItem('Black Curly Bob 10inch', 1050)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (12inch)</h3><div class="desc">Defined natural curls.</div></div>
+                <div><div class="price">R1300</div><button class="liquid-btn" onclick="addItem('Black Curly 12inch', 1300)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (14inch)</h3><div class="desc">Voluminous full curls.</div></div>
+                <div><div class="price">R1400</div><button class="liquid-btn" onclick="addItem('Black Curly 14inch', 1400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (16inch)</h3><div class="desc">Long bouncy curls.</div></div>
+                <div><div class="price">R1600</div><button class="liquid-btn" onclick="addItem('Black Curly 16inch', 1600)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (18inch)</h3><div class="desc">Long glamorous curls.</div></div>
+                <div><div class="price">R1750</div><button class="liquid-btn" onclick="addItem('Black Curly 18inch', 1750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (20inch)</h3><div class="desc">Maximum length curly look.</div></div>
+                <div><div class="price">R1900</div><button class="liquid-btn" onclick="addItem('Black Curly 20inch', 1900)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (22inch)</h3><div class="desc">Extra long luscious curls.</div></div>
+                <div><div class="price">R2200</div><button class="liquid-btn" onclick="addItem('Black Curly 22inch', 2200)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (24inch)</h3><div class="desc">Voluminous long curls.</div></div>
+                <div><div class="price">R2400</div><button class="liquid-btn" onclick="addItem('Black Curly 24inch', 2400)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (26inch)</h3><div class="desc">Long statement curly frontal.</div></div>
+                <div><div class="price">R2750</div><button class="liquid-btn" onclick="addItem('Black Curly 26inch', 2750)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (28inch)</h3><div class="desc">Extremely long luxury curls.</div></div>
+                <div><div class="price">R2800</div><button class="liquid-btn" onclick="addItem('Black Curly 28inch', 2800)">Order Wig</button></div>
+            </div>
+            <div class="card">
+                <div><h3>Black Curly Full Frontal (30inch)</h3><div class="desc">Ultimate length curly frontal.</div></div>
+                <div><div class="price">R3200</div><button class="liquid-btn" onclick="addItem('Black Curly 30inch', 3200)">Order Wig</button></div>
+            </div>
+        </div>
+
+        <!-- LIVE CART AND SUMMARY -->
+        <div class="checkout-container">
+            <h3 style="color: var(--lavender); margin-top:0; font-size: 1.4rem;">Live Order and Booking Summary</h3>
+            <div id="item-list" style="color: #cbd5e1; margin: 20px 0; font-size: 1rem;">No items selected yet.</div>
+            <hr style="border-color: rgba(216, 180, 254, 0.25); margin: 20px 0;">
+            <p style="display:flex; justify-content:space-between; font-size:1.4rem; font-weight:bold; margin-bottom:0;">
+                <span>Total:</span> <span id="total" style="color: var(--cyan);">R0.00</span>
+            </p>
+            <button class="liquid-btn checkout-btn" onclick="generateSlip()">Generate Client Slip and Booking Total</button>
+        </div>
+
     </div>
+
+    <!-- MODAL POPUP -->
+    <div class="modal" id="modalSlip">
+        <div class="modal-content">
+            <h3 style="color: var(--lavender); margin-top:0;">Official Client Slip & Booking Confirmation</h3>
+            <div class="slip-box" id="slipText"></div>
+            <label style="font-size:0.95rem; color: var(--periwinkle); font-weight: 600;">Your Name or WhatsApp Number:</label>
+            <input type="text" id="clientName" placeholder="e.g. Lerato">
+            <button class="liquid-btn" style="margin-top:15px; background: linear-gradient(135deg, rgba(34, 211, 238, 0.4), rgba(147, 51, 234, 0.4)); border-color: var(--cyan); color:#fff;" onclick="finishOrder()">Confirm and Send to Miss Pweedy</button>
+            <button class="liquid-btn" onclick="closeModal()" style="margin-top:12px; background: rgba(147, 51, 234, 0.2); border-color: var(--periwinkle); color:#cbd5e1;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addItem(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            const listEl = document.getElementById('item-list');
+            const totalEl = document.getElementById('total');
+
+            if (cart.length === 0) {
+                listEl.innerHTML = "No items selected yet.";
+                totalEl.innerText = "R0.00";
+                return;
+            }
+
+            let html = "";
+            let total = 0;
+            cart.forEach((item, index) => {
+                html += `<div class="cart-item-row">
+                    <span>${item.name} - R${item.price}</span>
+                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                </div>`;
+                total += item.price;
+            });
+
+            listEl.innerHTML = html;
+            totalEl.innerText = `R${total}`;
+        }
+
+        function generateSlip() {
+            if (cart.length === 0) {
+                alert("Please select a service, wig, or kota first!");
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let timeStr = new Date().toLocaleTimeString();
+
+            let slip = `===============================\n`;
+            slip += `     MISS PWEEDY OFFICIAL SLIP\n`;
+            slip += `     Bedworth Park, Student Lofts\n`;
+            slip += `===============================\n`;
+            slip += `Time: ${timeStr}\n`;
+            cart.forEach(item => {
+                slip += `> ${item.name} ... R${item.price}\n`;
+            });
+            slip += `-------------------------------\n`;
+            slip += `TOTAL DUE: R${total}\n`;
+            slip += `[Status: Ready for Appointment Booking]\n`;
+            slip += `===============================\n`;
+
+            document.getElementById('slipText').innerText = slip;
+            document.getElementById('modalSlip').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalSlip').style.display = 'none';
+        }
+
+        function finishOrder() {
+            let name = document.getElementById('clientName').value;
+            if (!name) {
+                alert("Please enter your name or number!");
+                return;
+            }
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+            let itemsSummary = cart.map(i => i.name).join(", ");
+            
+            // Automatically open WhatsApp with prefilled order text ready for Miss Pweedy (0835052798)
+            let whatsappUrl = `https://wa.me/27835052798?text=Hi%20Miss%20Pweedy,%20my%20name%20is%20${encodeURIComponent(name)}.%20I%20want%20to%20order:%20${encodeURIComponent(itemsSummary)}.%20Total:%20R${total}.%20Here%20is%20my%20booking%20slip!`;
+            
+            window.open(whatsappUrl, '_blank');
+            closeModal();
+            cart = [];
+            updateCart();
+            document.getElementById('clientName').value = '';
+        }
+    </script>
 </body>
 </html>
